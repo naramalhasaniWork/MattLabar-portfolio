@@ -45,7 +45,7 @@ function animateProjectCards(): void {
         ease: EASE,
         scrollTrigger: {
           trigger: card,
-          start: 'top 90%',
+          start: 'top 95%',
           once: true,
         },
       }
@@ -53,7 +53,7 @@ function animateProjectCards(): void {
   });
 }
 
-/** Images reveal with clip-path for a more sophisticated entrance */
+/** Images reveal with scale(1.05) -> scale(1) + opacity */
 function animateProjectImages(): void {
   const images = document.querySelectorAll('[data-animate="image"]');
   if (!images.length) return;
@@ -61,20 +61,15 @@ function animateProjectImages(): void {
   images.forEach((img) => {
     gsap.fromTo(
       img,
-      { 
-        opacity: 0, 
-        scale: 1.1,
-        clipPath: 'inset(0 100% 0 0)' 
-      },
+      { opacity: 0, scale: 1.05 },
       {
         opacity: 1,
         scale: 1,
-        clipPath: 'inset(0 0 0 0)',
-        duration: 1.2,
+        duration: 0.8,
         ease: EASE,
         scrollTrigger: {
           trigger: img,
-          start: 'top 85%',
+          start: 'top 95%',
           once: true,
         },
       }
@@ -82,36 +77,24 @@ function animateProjectImages(): void {
   });
 }
 
-/** Content images inside project pages: sophisticated multi-directional reveals */
+/** Content images inside project pages: scale + opacity reveal */
 function animateContentImages(): void {
   const images = document.querySelectorAll('.project-content img');
   if (!images.length) return;
 
-  images.forEach((img, index) => {
-    // Alternate between different reveal directions
-    const direction = index % 3;
-    const startProps: { [key: string]: any } = { opacity: 0, scale: 1.08 };
-    
-    if (direction === 0) {
-      startProps.clipPath = 'inset(0 100% 0 0)'; // Right to left
-    } else if (direction === 1) {
-      startProps.clipPath = 'inset(0 0 0 100%)'; // Left to right
-    } else {
-      startProps.clipPath = 'inset(100% 0 0 0)'; // Top to bottom
-    }
-
+  images.forEach((img) => {
     gsap.fromTo(
       img,
-      startProps,
+      { opacity: 0, scale: 1.05, y: 20 },
       {
         opacity: 1,
         scale: 1,
-        clipPath: 'inset(0 0 0 0)',
-        duration: 1.4,
+        y: 0,
+        duration: 0.8,
         ease: EASE,
         scrollTrigger: {
           trigger: img,
-          start: 'top 85%',
+          start: 'top 95%',
           once: true,
         },
       }
@@ -134,7 +117,7 @@ function animateProcessGrid(): void {
       stagger: STAGGER,
       scrollTrigger: {
         trigger: items[0],
-        start: 'top 90%',
+        start: 'top 95%',
         once: true,
       },
     }
@@ -156,7 +139,7 @@ function animateSections(): void {
         ease: EASE,
         scrollTrigger: {
           trigger: section,
-          start: 'top 85%',
+          start: 'top 95%',
           once: true,
         },
       }

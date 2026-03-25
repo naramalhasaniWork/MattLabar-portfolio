@@ -99,14 +99,6 @@ const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).toString(
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
-    {/* Elegant preloader */}
-    <div id="page-loader" class="fixed inset-0 z-[100] bg-bg-primary flex items-center justify-center transition-opacity duration-700">
-      <div class="text-center">
-        <div class="loader-ring relative w-16 h-16 mx-auto mb-4"></div>
-        <p class="text-label text-text-muted">Loading</p>
-      </div>
-    </div>
-
     <Nav />
     <main class="flex-1 pt-16 md:pt-20">
       <slot />
@@ -114,36 +106,6 @@ const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).toString(
     <Footer />
     <script>
       import { initAnimations } from '@scripts/animations';
-      import { initCustomCursor, cleanupCustomCursor } from '@scripts/cursor';
-
-      // Init on load
-      initCustomCursor();
-
-      // Cleanup and re-init on page transitions
-      document.addEventListener('astro:before-swap', cleanupCustomCursor);
-      document.addEventListener('astro:after-swap', initCustomCursor);
-
-      // Remove preloader smoothly
-      function hideLoader() {
-        const loader = document.getElementById('page-loader');
-        if (loader) {
-          // Slight delay to ensure fonts/layout are ready
-          setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 700);
-          }, 150);
-        }
-      }
-
-      // Initial load
-      if (document.readyState === 'complete') {
-        hideLoader();
-      } else {
-        window.addEventListener('load', hideLoader);
-      }
-
-      // Astro view transitions support
-      document.addEventListener('astro:page-load', hideLoader);
     </script>
   </body>
 </html>
