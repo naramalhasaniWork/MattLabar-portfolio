@@ -123,16 +123,27 @@ const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).toString(
       document.addEventListener('astro:before-swap', cleanupCustomCursor);
       document.addEventListener('astro:after-swap', initCustomCursor);
 
-      // Remove preloader after page loads
-      window.addEventListener('load', () => {
+      // Remove preloader smoothly
+      function hideLoader() {
         const loader = document.getElementById('page-loader');
         if (loader) {
+          // Slight delay to ensure fonts/layout are ready
           setTimeout(() => {
             loader.style.opacity = '0';
             setTimeout(() => loader.remove(), 700);
-          }, 300);
+          }, 150);
         }
-      });
+      }
+
+      // Initial load
+      if (document.readyState === 'complete') {
+        hideLoader();
+      } else {
+        window.addEventListener('load', hideLoader);
+      }
+
+      // Astro view transitions support
+      document.addEventListener('astro:page-load', hideLoader);
     </script>
   </body>
 </html>
